@@ -153,13 +153,22 @@ app.get('/', function(req, res){
 function importContacts(next) {
   dataService.getContacts(function(jsonContacts) {
     jsonParser([])(jsonContacts); // Holly library
-    return Contact.collection.insert(jsonContacts, next)
+
+    var jsonContactsPromises = []
+    for (var i=0; i < jsonContacts.length; i++) {
+      var contact = new Contact(jsonContacts[i]);
+      jsonContactsPromises.push(contact.save());
+    }
+
+    return Promise.all(jsonContactsPromises)
+    .then(function() {
+      var server = http.createServer(app)
+      server.listen(port)
+
+      console.log('Hello world!')
+    })
+
   })
 }
 
-importContacts(function() {
-  var server = http.createServer(app)
-  server.listen(port)
-
-  console.log('Hello world!')
-})
+importContacts()
