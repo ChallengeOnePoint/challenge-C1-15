@@ -48,7 +48,7 @@ ContactSchema.pre('save', function(next) {
   next();
 })
 
-mongoose.model('Contact', ContactSchema);
+var Contact = mongoose.model('Contact', ContactSchema);
 
 
 /* Controllers */
@@ -131,6 +131,7 @@ app.use(router)
 app.get('/', function(req, res){
   res.send('Welcome to El Contactor => Go speak API !');
 });
+
 
 
 /* Server */
