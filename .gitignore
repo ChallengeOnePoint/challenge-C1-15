@@ -18,6 +18,8 @@ client/build/Release
 client/node_modules
 server/node_modules
 
+client/dist
+
 # Bower
 client/bower_components/
 
