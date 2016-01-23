@@ -20,7 +20,7 @@ var Contact = mongoose.model('Contact', {
   city: { type: String, maxlength: 100 },
   postcode: { type: String, maxlength: 8 },
   firstname: { type: String, maxlength: 100 },
-  lastname: { type: String, maxlength: 100 }
+  lastname: { type: String, maxlength: 100, required: true }
 })
 
 /* Controllers */
