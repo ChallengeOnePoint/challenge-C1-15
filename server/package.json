@@ -12,8 +12,10 @@
     "body-parser": "1.14.1",
     "ejs": "2.3.4",
     "express": "4.13.3",
+    "google-geocoding": "0.1.7",
     "jade": "1.11.0",
-    "mongoose": "4.2.5",
-    "google-geocoding": "0.1.7"
+    "json-parse": "^1.0.3",
+    "json-parser": "^1.1.5",
+    "mongoose": "4.2.5"
   }
 }
