@@ -21,31 +21,39 @@ var ContactSchema = new mongoose.Schema({
   city: { type: String, maxlength: 100 },
   postcode: { type: String, maxlength: 8 },
   firstname: { type: String, maxlength: 100 },
-  lastname: { type: String, maxlength: 100, required: true }
+  lastname: { type: String, maxlength: 100, required: true },
+  location: { type: Object }
 })
 
 ContactSchema.methods = {
-  geocode: function() {
+  getGeocode: function(next) {
     var query = this.street + ', ' + this.postcode + ' ' + this.city;
     return geocode.geocode(query, function(err, location) {
       if (err) {
-        console.log('Error:' + err);
+        console.log('Error:' + err)
       }
       else if (!location) {
-        console.log('No result.');
+        console.log('No result')
       }
       else {
-        return location;
+        console.log('location ', location)
+        return next(location)
       }
 
-      return null;
+      return next(null);
     });
   }
 }
 
 ContactSchema.pre('save', function(next) {
-  this.geocode();
-  next();
+  var model = this;
+  model.getGeocode(function(location) {
+    if (location != null) {
+      model.location = location
+    }
+
+    next()
+  })
 })
 
 var Contact = mongoose.model('Contact', ContactSchema);
