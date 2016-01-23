@@ -53,6 +53,10 @@ var Contact = mongoose.model('Contact', ContactSchema);
 
 /* Controllers */
 
+app.use(bodyParser({
+    limit: '2mb'
+}));
+
 var router = express.Router();
 
 router.route('/api/contacts')
