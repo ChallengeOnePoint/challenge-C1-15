@@ -1,0 +1,7 @@
+{
+  "generator-react-webpack": {
+    "appName": "elContactor",
+    "style": "sass",
+    "postcss": false
+  }
+}
