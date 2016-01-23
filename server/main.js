@@ -8,13 +8,14 @@ var app = express()
 var bodyParser = require('body-parser')
 var path = require('path')
 var mongoose = require('mongoose')
+var geocode = require('./node_modules/google-geocoding')
 
 
 /* Database - Models */
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/el-contactor');
 
-var ContactSchema = new Schema({
+var ContactSchema = new mongoose.Schema({
   number: { type: String, maxlength: 5 },
   street: { type: String, maxlength: 150 },
   city: { type: String, maxlength: 100 },
@@ -23,10 +24,27 @@ var ContactSchema = new Schema({
   lastname: { type: String, maxlength: 100, required: true }
 })
 
-ContactSchema.pre('save', function(next) {
-  // this.foo = 'bar';
-  // TODO: Geocode !
+ContactSchema.methods = {
+  geocode: function() {
+    var query = this.street + ', ' + this.postcode + ' ' + this.city;
+    return geocode.geocode(query, function(err, location) {
+      if (err) {
+        console.log('Error:' + err);
+      }
+      else if (!location) {
+        console.log('No result.');
+      }
+      else {
+        return location;
+      }
 
+      return null;
+    });
+  }
+}
+
+ContactSchema.pre('save', function(next) {
+  this.geocode();
   next();
 })
 
