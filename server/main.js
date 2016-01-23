@@ -23,6 +23,14 @@ var Contact = mongoose.model('Contact', {
   lastname: { type: String, maxlength: 100, required: true }
 })
 
+schema.pre('save', function(next) {
+  // this.foo = 'bar';
+  // TODO: Geocode !
+
+  next();
+})
+
+
 /* Controllers */
 
 var router = express.Router();
@@ -97,11 +105,13 @@ router.get('/', function(req, res){
 
 app.use(router)
 
+
 /* Funky */
 
 app.get('/', function(req, res){
   res.send('Welcome to El Contactor => Go speak API !');
 });
+
 
 /* Server */
 
