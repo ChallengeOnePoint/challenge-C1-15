@@ -14,7 +14,7 @@ var mongoose = require('mongoose')
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/el-contactor');
 
-var Contact = mongoose.model('Contact', {
+var ContactSchema = new Schema({
   number: { type: String, maxlength: 5 },
   street: { type: String, maxlength: 150 },
   city: { type: String, maxlength: 100 },
@@ -23,12 +23,14 @@ var Contact = mongoose.model('Contact', {
   lastname: { type: String, maxlength: 100, required: true }
 })
 
-schema.pre('save', function(next) {
+ContactSchema.pre('save', function(next) {
   // this.foo = 'bar';
   // TODO: Geocode !
 
   next();
 })
+
+mongoose.model('Contact', ContactSchema);
 
 
 /* Controllers */
