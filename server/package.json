@@ -16,6 +16,7 @@
     "jade": "1.11.0",
     "json-parse": "^1.0.3",
     "json-parser": "^1.1.5",
-    "mongoose": "4.2.5"
+    "mongoose": "4.2.5",
+    "get-json-plz": "0.0.2"
   }
 }

@@ -8,8 +8,10 @@ var app = express()
 var bodyParser = require('body-parser')
 var path = require('path')
 var mongoose = require('mongoose')
-var geocode = require('./node_modules/google-geocoding')
+var geocode = require('google-geocoding')
 
+var dataService = require('./dataService')
+var jsonParser = require('json-parse')
 
 /* Database - Models */
 
@@ -148,7 +150,16 @@ app.get('/', function(req, res){
 
 /* Server */
 
-var server = http.createServer(app)
-server.listen(port)
+function importContacts(next) {
+  dataService.getContacts(function(jsonContacts) {
+    jsonParser([])(jsonContacts); // Holly library
+    return Contact.collection.insert(jsonContacts, next)
+  })
+}
 
-console.log('Hello world!')
+importContacts(function() {
+  var server = http.createServer(app)
+  server.listen(port)
+
+  console.log('Hello world!')
+})
